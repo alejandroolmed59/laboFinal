@@ -170,17 +170,23 @@ public class Consulta extends JFrame{
             @Override
 
             public void actionPerformed(ActionEvent e) {
-
+                ArrayList<Estudiante> all= new ArrayList<>();
                 DaoEstudiante de = new DaoEstudiante();
-
+                all=de.readAll();
                 Estudiante est = new Estudiante(carnet.getText(), nombre.getText(), apellidos.getText(), Integer.parseInt(edad.getText()), universidad.getSelectedItem().toString(), true);
-
+                for(Estudiante estv2: all){
+                    if(est.getCarnet()==estv2.getCarnet()){
+                        JOptionPane.showMessageDialog(null, "Este estudiante ya existe!.");
+                        limpiarCampos();
+                        return;
+                    }
+                }
                 if (no.isSelected()) {
 
                     est.setEstado(false);
 
                 }
-
+                
                 if (de.create(est)) {
 
                     JOptionPane.showMessageDialog(null, "Estudiante inscrito con exito.");
