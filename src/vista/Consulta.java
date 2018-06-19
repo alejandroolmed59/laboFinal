@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package vista;
+
 import dao.DaoEstudiante;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
@@ -22,11 +23,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modelo.Estudiante;
+
 /**
  *
  * @author LN710Q
  */
-public class Consulta extends JFrame{
+public class Consulta extends JFrame {
+
     public JLabel lblCarnet, lblNombres, lblEdad, lblApellidos, lblUniversidad, lblEstado;
     public JTextField carnet, nombre, edad, apellidos;
     public JComboBox universidad;
@@ -35,46 +38,47 @@ public class Consulta extends JFrame{
     public JRadioButton si;
     public JTable resultados;
     public JPanel table;
-    
+
     public JButton insertar, actualizar, eliminar, limpiar, buscar;
     private static final int ANCHOC = 130, ALTOC = 30;
     DefaultTableModel tm;
-    
-        public Consulta() {
-            super("Inscripciones");
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            setLayout(null);
-            
-            agregarLabels();
-            formulario();
-            llenarTabla();
-            
-            Container container = getContentPane();
-            container.add(lblCarnet);
-            container.add(lblNombres);
-            container.add(lblEdad);
-            container.add(lblApellidos);
-            container.add(lblUniversidad);
-            container.add(lblEstado);
-            container.add(carnet);
-            container.add(nombre);
-            container.add(apellidos);
-            container.add(universidad);
-            container.add(edad);
-            container.add(si);
-            container.add(no);
-            container.add(buscar);
-            container.add(insertar);
-            container.add(actualizar);
-            container.add(eliminar);
-            container.add(limpiar);
-            container.add(table);
-            setSize(600, 900);
-            eventos();
+
+    public Consulta() {
+        super("Inscripciones");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(null);
+
+        agregarLabels();
+        formulario();
+        llenarTabla();
+
+        Container container = getContentPane();
+        container.add(lblCarnet);
+        container.add(lblNombres);
+        container.add(lblEdad);
+        container.add(lblApellidos);
+        container.add(lblUniversidad);
+        container.add(lblEstado);
+        container.add(carnet);
+        container.add(nombre);
+        container.add(apellidos);
+        container.add(universidad);
+        container.add(edad);
+        container.add(si);
+        container.add(no);
+        container.add(buscar);
+        container.add(insertar);
+        container.add(actualizar);
+        container.add(eliminar);
+        container.add(limpiar);
+        container.add(table);
+        setSize(600, 900);
+        eventos();
     }
-        public final void agregarLabels() {
+
+    public final void agregarLabels() {
         lblCarnet = new JLabel("Carnet");
-        lblNombres= new JLabel("Nombre");
+        lblNombres = new JLabel("Nombre");
         lblApellidos = new JLabel("Apellidos");
         lblEdad = new JLabel("Edad");
         lblEstado = new JLabel("Estado");
@@ -84,16 +88,17 @@ public class Consulta extends JFrame{
         lblApellidos.setBounds(10, 100, ANCHOC, ALTOC);
         lblEdad.setBounds(10, 140, ANCHOC, ALTOC);
         lblUniversidad.setBounds(10, 200, ANCHOC, ALTOC);
-        lblEstado.setBounds(10,240, ANCHOC, ALTOC);
- 
+        lblEstado.setBounds(10, 240, ANCHOC, ALTOC);
+
     }
-    public final void formulario(){
+
+    public final void formulario() {
         carnet = new JTextField();
         universidad = new JComboBox();
         nombre = new JTextField();
         apellidos = new JTextField();
         edad = new JTextField();
-        si = new JRadioButton("si");
+        si = new JRadioButton("si", true);
         no = new JRadioButton("no");
         resultados = new JTable();
         buscar = new JButton("Buscar");
@@ -103,32 +108,34 @@ public class Consulta extends JFrame{
         limpiar = new JButton("Limpiar");
         table = new JPanel();
         universidad.addItem("UCA");
-        universidad.addItem("Don Bosco");
+        universidad.addItem("UDB");
         universidad.addItem("UES");
         universidad.addItem("UFG");
-        
+        universidad.addItem("UGB");
+
         estado = new ButtonGroup();
         estado.add(si);
         estado.add(no);
-        
+
         carnet.setBounds(140, 10, ANCHOC, ALTOC);
         nombre.setBounds(140, 60, ANCHOC, ALTOC);
         apellidos.setBounds(140, 100, ANCHOC, ALTOC);
         edad.setBounds(140, 140, ANCHOC, ALTOC);
         universidad.setBounds(140, 200, ANCHOC, ALTOC);
-        si.setBounds(140, 240, ANCHOC, ALTOC);
-        no.setBounds(220, 240, ANCHOC, ALTOC);
-        
+        si.setBounds(160, 240, ANCHOC, ALTOC);
+        no.setBounds(270, 240, ANCHOC, ALTOC);
+
         buscar.setBounds(300, 10, ANCHOC, ALTOC);
         insertar.setBounds(10, 300, ANCHOC, ALTOC);
         actualizar.setBounds(150, 300, ANCHOC, ALTOC);
         eliminar.setBounds(300, 300, ANCHOC, ALTOC);
         limpiar.setBounds(450, 300, ANCHOC, ALTOC);
-        
+
         resultados = new JTable();
         table.setBounds(10, 340, 500, 400);
         table.add(new JScrollPane(resultados));
     }
+
     public void llenarTabla() {
         tm = new DefaultTableModel() {
             public Class<?> getColumnClass(int column) {
@@ -162,7 +169,7 @@ public class Consulta extends JFrame{
         }
         resultados.setModel(tm);
     }
-    
+
     public void eventos() {
 
         insertar.addActionListener(new ActionListener() {
@@ -170,12 +177,12 @@ public class Consulta extends JFrame{
             @Override
 
             public void actionPerformed(ActionEvent e) {
-                ArrayList<Estudiante> all= new ArrayList<>();
+                ArrayList<Estudiante> all = new ArrayList<>();
                 DaoEstudiante de = new DaoEstudiante();
-                all=de.readAll();
+                all = de.readAll();
                 Estudiante est = new Estudiante(carnet.getText(), nombre.getText(), apellidos.getText(), Integer.parseInt(edad.getText()), universidad.getSelectedItem().toString(), true);
-                for(Estudiante estv2: all){
-                    if(est.getCarnet()==estv2.getCarnet()){
+                for (Estudiante estv2 : all) {
+                    if (est.getCarnet() == estv2.getCarnet()) {
                         JOptionPane.showMessageDialog(null, "Este estudiante ya existe!.");
                         limpiarCampos();
                         return;
@@ -186,7 +193,7 @@ public class Consulta extends JFrame{
                     est.setEstado(false);
 
                 }
-                
+
                 if (de.create(est)) {
 
                     JOptionPane.showMessageDialog(null, "Estudiante inscrito con exito.");
@@ -204,7 +211,28 @@ public class Consulta extends JFrame{
             }
 
         });
+        actualizar.addActionListener(new ActionListener() {
 
+            @Override
+
+            public void actionPerformed(ActionEvent e) {
+               // int flag = 0;
+                DaoEstudiante de = new DaoEstudiante();
+                Estudiante est = new Estudiante(carnet.getText(), nombre.getText(), apellidos.getText(), Integer.parseInt(edad.getText()), universidad.getSelectedItem().toString(), true);
+
+                if(de.update(est)){
+                    
+                    JOptionPane.showMessageDialog(null, "Estudiante actualizado con exito");
+                    limpiarCampos();
+                    llenarTabla();
+                    
+                    
+                }else{
+                    JOptionPane.showMessageDialog(null, "Este estudiante no exite");
+                }
+                
+            }
+        });
         eliminar.addActionListener(new ActionListener() {
 
             @Override
@@ -291,7 +319,6 @@ public class Consulta extends JFrame{
         edad.setText("");
         universidad.setSelectedItem("UCA");
 
-
     }
 
     public static void main(String[] args) {
@@ -310,5 +337,3 @@ public class Consulta extends JFrame{
 
     }
 }
-
-
